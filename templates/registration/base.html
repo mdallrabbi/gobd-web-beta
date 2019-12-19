@@ -1,0 +1,46 @@
+o{% extends 'base.html' %}
+{% block title %} Seller {% endblock %}
+{% block script %}
+	<script type="text/javascript">
+		// $(document).ready(function(){
+		// 	var now =  new Date();
+		// 	setInterval(function(){
+		// 		$.ajax({
+		// 			url: '/api/store/order/notification/' + now.toISOString() + '/',
+		// 			method: 'GET',
+		// 			success: function(data){
+		// 				if(data['notification'] === 0){
+		// 					$('.badge').text('');
+		// 				}else{
+		// 					$('.badge').text(data['notification']);
+		// 				}
+		// 			}
+
+		// 		})
+
+		// 	}, 3000)
+
+		// })
+	</script>
+{% endblock %}
+
+{% block sidebar %}
+	{% url 'seller_order' as seller_order_url %}
+	{% url 'seller_account' as seller_account_url %}
+	<div class="text-center">
+		<h4>Welcome, {{request.user.seller.seller_name}} to GO|BD - Logistics</h4>
+		<h4>{{reqest.user.get_full_name }}</h4>
+	</div>
+	<div class="list-group">
+		<span class="text-uppercase">Dashboard</span>
+			<a href="{% url 'seller_order' %}" class="list-group-item {% if request.path == restaurant_order_url %} active {% endif %} ">Orders<span class="badge"></span></a>
+
+			<span class="text-uppercase">Profile</span>
+		      <a href="{% url 'seller-account' %}"
+		          class="list-group-item {% if request.path == restaurant_account_url %} active {% endif %} ">Account</a>
+	</div>
+	 <div class="text-center">
+      <a href="{% url 'seller-signout' %}?next={{ request.path }}"
+          class="btn btn-pink">Logout</a>
+    </div>
+   {% endblock %}

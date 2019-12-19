@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block title %} GBL - Seller {% endblock %}
+{% block script %}
+	<script type="text/javascript">
+		// $(document).ready(function(){
+		// 	var now =  new Date();
+		// 	setInterval(function(){
+		// 		$.ajax({
+		// 			url: '/api/deliver/task/accept/notification/' + now.toISOString() + '/',
+		// 			method: 'GET',
+		// 			success: function(data){
+		// 				if(data['notification'] === 0){
+		// 					$('.badge').text('');
+		// 				}else{
+		// 					$('.badge').text(data['notification']);
+		// 				}
+		// 			}
+
+		// 		})
+
+		// 	}, 1000)
+
+		// })
+	</script>
+{% endblock %}
+
+{% block sidebar %}
+	{% url 'seller_orders' as seller_task_url %}
+	{% url 'seller_account' as seller_account_url %}
+	<div class="text-center">
+		<h4>Welcome, {{request.user.seller.seller_name}}</h4>
+		<h4>{{reqest.user.get_full_name }}</h4>
+	</div>
+	<div class="list-group">
+		<span class="text-uppercase"></span>
+			<a href="{% url 'seller_orders' %}" class="list-group-item {% if request.path == seller_task_url %} active {% endif %} ">Orders<span class="badge"></span></a>
+
+			<span class="text-uppercase"></span>
+		      <a href="{% url 'seller-account' %}"
+		          class="list-group-item {% if request.path == seller_account_url %} active {% endif %} ">Account</a>
+	</div>
+	 <div class="text-center">
+      <a href="{% url 'seller-signout' %}?next='/seller-signin"
+          class="btn btn-pink">Logout</a>
+    </div>
+   {% endblock %}

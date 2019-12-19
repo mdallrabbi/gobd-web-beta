@@ -1,0 +1,23 @@
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+{% if form.non_field_errors %}
+  <div class="alert alert-danger" role="alert">
+    {% for error in form.non_field_errors %}
+      <p{% if forloop.last %} class="mb-0"{% endif %}>{{ error }}</p>
+    {% endfor %}
+  </div>
+{% endif %}
+<div class="row">
+    <div class="form-row">
+    <form method="post">
+
+        {%csrf_token%}
+        {{form|crispy}}
+
+    </form>
+    </div>
+</div>
+
+{% endblock content %}

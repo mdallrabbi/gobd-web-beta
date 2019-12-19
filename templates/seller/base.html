@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block title %} Seller {% endblock %}
+{% block script %}
+	<script type="text/javascript">
+		// $(document).ready(function(){
+		// 	var now =  new Date();
+		// 	setInterval(function(){
+		// 		$.ajax({
+		// 			url: '/api/store/order/notification/' + now.toISOString() + '/',
+		// 			method: 'GET',
+		// 			success: function(data){
+		// 				if(data['notification'] === 0){
+		// 					$('.badge').text('');
+		// 				}else{
+		// 					$('.badge').text(data['notification']);
+		// 				}
+		// 			}
+
+		// 		})
+
+		// 	}, 1000)
+
+		// })
+	</script>
+{% endblock %}
+
+{% block sidebar %}
+	{% url 'seller_orders' as seller_order_url %}
+	{% url 'seller_account' as seller_account_url %}
+	{% url 'create_order' as create_order_url %}
+	<div class="text-center">
+		<h4>Welcome, {{request.user.seller.seller_name}}</h4>
+		<h4>{{reqest.user.get_full_name }}</h4>
+		<div class=".badge"></div>
+	</div>
+	<div class="list-group">
+		<span class="text-uppercase"></span>
+			<a href="{% url 'seller_orders' %}" class="list-group-item {% if request.path == seller_order_url %} active {% endif %} ">Orders<span class="badge"></span></a>
+			<a href="{% url 'create_order' %}" class="list-group-item {% if request.path == create_order_url %} active {% endif %} ">New Order<span class="badge"></span></a>
+
+			<span class="text-uppercase"></span>
+		      <a href="{% url 'seller_account' %}"
+		          class="list-group-item {% if request.path == seller_account_url %} active {% endif %} ">Account</a>
+	</div>
+	 <div class="text-center">
+      <a href="{% url 'seller-signout' %}?next={{ request.path }}"
+          class="btn btn-pink">Logout</a>
+    </div>
+   {% endblock %}

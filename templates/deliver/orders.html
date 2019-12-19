@@ -1,0 +1,157 @@
+{% extends 'deliver/base.html' %}
+
+{% block page %}
+
+    <div class="panel">
+        <div class="panel-heading bg-primary">
+            <h4 class="panel-title text-center text-white">New Tasks</h4>
+        </div>
+        <div class="panel-body">
+            <br/>
+            <table class="table table-bordered table-hover table-striped">
+                <thead>
+                  <tr class="bg-gray text-white">
+                    <th>Id</th>
+                    <th>Title</th>
+                    <th>seller</th>
+                    <th>Preiority</th>
+                     <th>Action</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for order in orders %}
+                        <tr>
+                            <td>{{ order.id }}</td>
+                            <td>{{ order.title }}</td>
+                            <td>{{ order.seller }}</td>
+                            <td>{{ order.preiority}}</td>
+                            <td><button class="btn btn-success" onclick="AcceptOrder({{order.id}})">Accept</button></td>
+                            <td><button class="btn btn-danger" onclick="RejectOrder({{order.id}})">Reject</button></td>
+                            <td><button class="btn btn-primary" onclick="CompletedOrder({{order.id}})">Completed</button></td>
+                            <td>{{order.status}}</td>
+                        </tr>
+                    {% endfor %}
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="panel">
+        <div class="panel-heading bg-blue">
+            <h4 class="panel-title text-center text-white">Accepted Orders</h4>
+        </div>
+        <div class="panel-body">
+            <br/>
+            <table class="table table-bordered table-hover table-striped">
+                <thead>
+                  <tr class="bg-gray text-white">
+                    <th>Id</th>
+                    <th>Title</th>
+                    <th>seller</th>
+                    <th>Reject</th>
+                    <th>Completed</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for order in accepted_orders %}
+                        <tr>
+                            <td>{{ order.id }}</td>
+                            <td>{{ order.title }}</td>
+                            <td>{{ order.seller }}</td>
+                            <td><button class="btn btn-danger" onclick="RejectOrder({{order.id}})">Reject</button></td>
+                            <td><button class="btn btn-primary" onclick="CompletedOrder({{order.id}})">Completed</button></td>
+                            <td>{{order.status}}</td>
+                        </tr>
+                    {% endfor %}
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="panel">
+        <div class="panel-heading bg-blue">
+            <h4 class="panel-title text-center text-white">Completed Orders</h4>
+        </div>
+        <div class="panel-body">
+            <br/>
+            <table class="table table-bordered table-hover table-striped">
+                <thead>
+                  <tr class="bg-gray text-white">
+                    <th>Id</th>
+                    <th>Title</th>
+                    <th>Seller</th>
+                    <th>Completed</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for order in completed_orders %}
+                        <tr>
+                            <td>{{ order.id }}</td>
+                            <td>{{ order.title }}</td>
+                            <td>{{ order.seller }}</td>
+                            <td>{{order.status}}</td>
+                        </tr>
+                    {% endfor %}
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+<script type="text/javascript">
+    
+    function AcceptOrder(id){
+        // alert(id)
+        $.ajax({
+            url: '/api/deliver/order/accept/',
+            data: {
+                'order_id': id
+            },
+            dataType: 'json',
+            success: function(result){
+                alert(result.result);
+            },
+            error: function(result){
+                alert('error');
+            }
+        });
+    }
+
+    function RejectOrder(id){
+        $.ajax({
+            url: '/api/deliver/order/reject/',
+            data: {
+                'order_id': id
+            },
+            dataType: 'json',
+            success: function(result){
+                alert(result.status);
+            },
+            error: function(result){
+                alert(result.status);
+            }
+        });
+    }
+
+    function CompletedOrder(id){
+        $.ajax({
+            url: '/api/deliver/order/complete/',
+            data: {
+                'order_id': id
+            },
+            dataType: 'json',
+            success: function(result){
+                alert(result.status);
+            },
+            error: function(result){
+                alert(result.status);
+            }
+        });
+    }
+
+
+</script>
+{% endblock %}

@@ -1,0 +1,117 @@
+{% extends 'seller/base.html' %}
+
+{% block page %}
+
+<div class="panel">
+    <div class="panel-heading bg-blue">
+        <h4 class="panel-title text-center text-white">Orders</h4>
+    </div>
+    <div class="panel-body">
+        <br/>
+        <table class="table table-bordered table-hover table-striped">
+            <thead>
+              <tr class="bg-gray text-white">
+                <th>ID</th>
+                <th>Title</th>
+                <th>Priority</th>
+                <th>Type</th>
+                <th>Delivery Man</th>
+                <th>Status</th>
+                <th>Action</th>
+                <th>Details</th>
+                <th>Operation Key</th>
+              </tr>
+            </thead>
+            <tbody>
+            {% for order in orders %}
+                <tr data-toggle="collapse">
+                    <td>{{ order.id }}</td>
+                    <td>{{ order.title }}</td>
+                    <td>{{ order.preiority }}</td>
+                    <td>{{ order.order_type }}</td>
+                    <td>{{ order.delivery_man }}</td>
+                    {% if order.status %}
+                        {% if order.status == 'ACCEPTED' %}
+                            <td class="text-info">{{ order.status }}</td>
+                        {% else %}{% endif %}
+                        {% if order.status == 'DELIVERED' %}
+                            <td class="text-success">{{ order.status }}</td>
+                        {% else %}{% endif %}
+                        {% if order.status == 'REJECTED' %}
+                            <td class="text-danger">{{ order.status }}</td>
+                        {% else %}{% endif %}
+                        {% if order.status == 'CANCELD' %}
+                            <td class="text-warning">{{ order.status }}</td>
+                        {% else %}{% endif %}
+                        {% if order.status == 'PICKEDUP' %}
+                            <td class="text-success">{{ order.status }}</td>
+                        {% else %}{% endif %}
+                   {% endif %}
+                   <td><button onclick="cancelOrder(`{{order.id}}`)"class="btn btn-danger" id="CancelOrderBtn" >Cancel</button></td>
+                   <td><a href="{{ order.get_absolute_url }}"><button class="btn btn-success">Info</button>
+                   <td>{{ order.operation_key }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="container" id="order_data">
+
+    </div>
+</div>
+
+<div class="modal fade" id="myModal" role="dialog">
+<div class="modal-dialog">
+
+  <!-- Modal content-->
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal">&times;</button>
+      <h4 class="modal-title">{{order.title}}</h4>
+    </div>
+    <div class="modal-body">
+      <p>Some text in the modal.</p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<script type="text/javascript">
+function cancelOrder(id){
+     $.ajax({
+        url : '/api/seller/cancel_order/',
+        data : {
+            'order_id': id
+        },
+        dataType: 'json',
+        success: function(result){
+            alert("Order was canceld");
+        },
+        error: function(result){
+            alert('error');
+        }
+     });
+}
+
+function OrderDetails(id){
+     $.ajax({
+        url : '/api/seller/order_details/',
+        data : {
+            'order_id': id
+        },
+        dataType: 'json',
+        success: function(result){
+            alert(result);
+        },
+        error: function(result){
+            alert('error');
+        }
+     });
+}
+
+</script>
+{% endblock %}
