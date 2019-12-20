@@ -95,7 +95,7 @@ def create_order(request):
             order_instance = order_form.save(commit=False)
             order_instance.seller = request.user.seller
             order_instance.status = Order.ACCEPTED
-            order_instance.save()
+            #order_instance.save()
             messages.success(request, 'New Order Created')
             #seller_created_new_order_notification.delay(order_instance.id)
             return redirect(seller_home)
