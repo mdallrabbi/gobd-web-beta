@@ -16,7 +16,7 @@ tornado==4.5.2
 tornado-jinja2==0.2.4
 pyhocon==0.3.38
 structlog[dev]==17.2.0
-ujson==1.35
+ujson==5.4.0
 uvloop==0.13.0
 watchdog==0.8.3
 async_lru==1.0.1
